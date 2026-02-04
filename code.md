@@ -1,24 +1,27 @@
-## Login in OSC, either by using SSH in your terminal, a command line instanc ein your web browser, or using VSCode from OSC
+## Login in OSC, either by using SSH in your terminal, a command line instanc in your web browser, or using VSCode from OSC
+ssh todd625@pitzer.osu.edu
+
 ## Check where you are and make sure you create your working directory in the right place
 ```shell
-cd /fs/scratch/PAS3260/User/
-mkdir Lab_4
+cd /fs/scratch/PAS3260/Fiona/
+mkdir Lab4
 ```
 
-## Copy files to your working directory, for example:
+## Recursively add Jonathan files into my Lab 4
 ```shell
-cp /fs/scratch/PAS3260/Jonathan/Lab_4/ ?
+cp -r /fs/scratch/PAS3260/Jonathan/Lab_4/* .
 ```
 
 ## Go to your working directory and execute:
 ```shell
-cd Lab_4
+cd /fs/scratch/PAS3260/Fiona/Lab4/Lab_4
 ls -l
 ls -Llh
 ls -lh
 ```
-### What do you see?
-## There is a md5 file, what are md5 files for? Explain
+
+### What do you see? -l has the full values for size written out, but -Llh and -lh are human readable so the values are shortened and have units.
+## There is a md5 file, what are md5 files for? md5 is used to check data integrity (make sure downloaded file is the same as the original)
 ## Let's work with this file:
 ```shell
 md5sum -c Lab5.md5 > Checking.txt
