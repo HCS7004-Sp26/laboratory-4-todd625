@@ -62,13 +62,13 @@ zcat Run1CB3334.fastq.gz | echo "$((`wc -l` / 4))"
 Why the difference?
 ### Let's download some data from NCBI
 ```
-module load sratoolkit/2.10.7
+module load sratoolkit/3.0.2
 # What is sratoolkit?
 fastq-dump --gzip --split-files --readids --origfmt ERR3638927
 ```
 (a faster option is fasterq-dump, how can you look for information about this command?)
 ```shell
-zcat ERR3638927.fastq.gz | head
+zcat ERR3638927_1.fastq.gz | head
 ```
 ## Let's download a SAM file
 ```shell
