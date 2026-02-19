@@ -20,8 +20,11 @@ ls -Llh
 ls -lh
 ```
 
-### What do you see? -l has the full values for size written out, but -Llh and -lh are human readable so the values are shortened and have units.
-## There is a md5 file, what are md5 files for? md5 is used to check data integrity (make sure downloaded file is the same as the original)
+### What do you see? 
+#### -l has the full values for size written out, but -Llh and -lh are human readable so the values are shortened and have units.
+## There is a md5 file, what are md5 files for?
+### md5 is used to check data integrity (make sure downloaded file is the same as the original)
+
 ## Let's work with this file:
 ```shell
 md5sum -c Lab5.md5 > Checking.txt
@@ -56,14 +59,20 @@ head -100 Run1CB3334.fastq | less
 ```shell
 wc -l Run1CB3334.fastq
 ```
+
 # Is it? Try:
 zcat Run1CB3334.fastq.gz | echo "$((`wc -l` / 4))"
 ```
 Why the difference?
+#### This is not the number of reads it is the number of lines, each read is 4 lines
+
+
 ### Let's download some data from NCBI
 ```
 module load sratoolkit/3.0.2
 # What is sratoolkit?
+## sratoolkit is used to interact with second generation raw sequence data
+
 fastq-dump --gzip --split-files --readids --origfmt ERR3638927
 ```
 (a faster option is fasterq-dump, how can you look for information about this command?)
@@ -115,9 +124,16 @@ apptainer exec vcftools.sif vcftools --vcf Run1CB3334_Filtered_maf05_from_contai
 ```
 ## How could we use a container of samtools?
 ```shell
-module unload samtools/1.10
+module unload samtools/1.21
 samtools --help
 apptainer pull samtools.sif docker://
 apptainer exec samtools.sif samtools --help
 ```
 Followign the same structure as VCFtools, define the commands to sort and index fasta and BAM files using the samtools container
+
+## Sort and index fasta using samtools container
+apptainer pull samtools.sif docker://quay.io/biocontainers/samtools:1.21--h50ea8bc_0
+apptainer exec samtools.sif samtools --help
+apptainer exec samtools.sif samtools --faidx ERR3638927.fasta ###finish this!
+
+
