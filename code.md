@@ -1,24 +1,30 @@
-## Login in OSC, either by using SSH in your terminal, a command line instanc ein your web browser, or using VSCode from OSC
+## Login in OSC, either by using SSH in your terminal, a command line instanc in your web browser, or using VSCode from OSC
+ssh todd625@pitzer.osu.edu
+
 ## Check where you are and make sure you create your working directory in the right place
 ```shell
-cd /fs/scratch/PAS3260/User/
-mkdir Lab_4
+cd /fs/scratch/PAS3260/Fiona/
+mkdir Lab4
 ```
 
-## Copy files to your working directory, for example:
+## Recursively add Jonathan files into my Lab 4
 ```shell
-cp /fs/scratch/PAS3260/Jonathan/Lab_4/ ?
+cp -r /fs/scratch/PAS3260/Jonathan/Lab_4/* .
 ```
 
 ## Go to your working directory and execute:
 ```shell
-cd Lab_4
+cd /fs/scratch/PAS3260/Fiona/Lab4/Lab_4
 ls -l
 ls -Llh
 ls -lh
 ```
-### What do you see?
-## There is a md5 file, what are md5 files for? Explain
+
+### What do you see? 
+#### -l has the full values for size written out, but -Llh and -lh are human readable so the values are shortened and have units.
+## There is a md5 file, what are md5 files for?
+### md5 is used to check data integrity (make sure downloaded file is the same as the original)
+
 ## Let's work with this file:
 ```shell
 md5sum -c Lab5.md5 > Checking.txt
@@ -53,19 +59,25 @@ head -100 Run1CB3334.fastq | less
 ```shell
 wc -l Run1CB3334.fastq
 ```
+
 # Is it? Try:
 zcat Run1CB3334.fastq.gz | echo "$((`wc -l` / 4))"
 ```
 Why the difference?
+#### This is not the number of reads it is the number of lines, each read is 4 lines
+
+
 ### Let's download some data from NCBI
 ```
-module load sratoolkit/2.10.7
+module load sratoolkit/3.0.2
 # What is sratoolkit?
+## sratoolkit is used to interact with second generation raw sequence data
+
 fastq-dump --gzip --split-files --readids --origfmt ERR3638927
 ```
 (a faster option is fasterq-dump, how can you look for information about this command?)
 ```shell
-zcat ERR3638927.fastq.gz | head
+zcat ERR3638927_1.fastq.gz | head
 ```
 ## Let's download a SAM file
 ```shell
@@ -73,7 +85,7 @@ sam-dump --output-file ERR3638927.sam ERR3638927
 ```
 To manipulate the SAM file we will need samtools:
 ```shell
-module load samtools/1.10
+module load samtools/1.21
 ```
 Then, we can make a sorted BAM file:
 ```shell
@@ -112,9 +124,20 @@ apptainer exec vcftools.sif vcftools --vcf Run1CB3334_Filtered_maf05_from_contai
 ```
 ## How could we use a container of samtools?
 ```shell
-module unload samtools/1.10
+module unload samtools/1.21
 samtools --help
 apptainer pull samtools.sif docker://
 apptainer exec samtools.sif samtools --help
 ```
-Followign the same structure as VCFtools, define the commands to sort and index fasta and BAM files using the samtools container
+Following the same structure as VCFtools, define the commands to sort and index fasta and BAM files using the samtools container
+
+## Sort and index fasta using samtools container
+apptainer pull samtools.sif docker://quay.io/biocontainers/samtools:1.21--h50ea8bc_0
+apptainer exec samtools.sif samtools --help
+apptainer exec samtools.sif samtools faidx ERR3638927.fasta
+### This created indexed file called ERR3638927.fasta.fai
+
+## Sort and index BAM using samtools container
+apptainer exec samtools.sif samtools index ERR3638927_sorted.bam
+
+
