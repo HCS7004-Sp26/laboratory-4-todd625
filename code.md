@@ -85,7 +85,7 @@ sam-dump --output-file ERR3638927.sam ERR3638927
 ```
 To manipulate the SAM file we will need samtools:
 ```shell
-module load samtools/1.10
+module load samtools/1.21
 ```
 Then, we can make a sorted BAM file:
 ```shell
@@ -129,11 +129,15 @@ samtools --help
 apptainer pull samtools.sif docker://
 apptainer exec samtools.sif samtools --help
 ```
-Followign the same structure as VCFtools, define the commands to sort and index fasta and BAM files using the samtools container
+Following the same structure as VCFtools, define the commands to sort and index fasta and BAM files using the samtools container
 
 ## Sort and index fasta using samtools container
 apptainer pull samtools.sif docker://quay.io/biocontainers/samtools:1.21--h50ea8bc_0
 apptainer exec samtools.sif samtools --help
-apptainer exec samtools.sif samtools --faidx ERR3638927.fasta ###finish this!
+apptainer exec samtools.sif samtools faidx ERR3638927.fasta
+### This created indexed file called ERR3638927.fasta.fai
+
+## Sort and index BAM using samtools container
+apptainer exec samtools.sif samtools index ERR3638927_sorted.bam
 
 
